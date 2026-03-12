@@ -1,0 +1,222 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #11182b, #1c325a);
+}
+
+/* Page */
+.confession-page {
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.page-title {
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+}
+
+/* Write Box */
+.write-box {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.write-box textarea {
+  resize: none;
+  height: 90px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Bottom row */
+.write-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Left side (emoji + dropdown) */
+.left-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Emoji Button */
+.emoji-btn {
+  background: #ff4d6d;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
+
+.emoji-btn:hover {
+  background: #ff1e4d;
+}
+
+/* Dropdown */
+.category-dropdown {
+  width: 140px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background-color: #2f3b52;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.category-dropdown:hover {
+  background-color: #394867;
+}
+
+/* Post Button */
+.post-btn {
+  background: #ff4d6d;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.post-btn:hover {
+  background: #ff1e4d;
+}
+
+/* Card */
+.confession-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(15px);
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Badge */
+.card-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.badge {
+  background-color: #ff4d6d;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Text */
+.confession-text {
+  font-size: 17px;
+  margin: 20px 0;
+}
+
+/* Like Button */
+.actions button {
+  background: #ff4d6d;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
+
+.actions button:hover {
+  background: #ff1e4d;
+}
+
+.liked-btn {
+  background: #ff1e4d !important;
+  box-shadow: 0 0 10px #ff4d6d;
+}
+
+/* Comments */
+.comments {
+  margin-top: 15px;
+}
+
+.comment {
+  background: rgba(255,255,255,0.12);
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+/* View more */
+.view-more {
+  color: #ff4d6d;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.view-more:hover {
+  text-decoration: underline;
+}
+
+/* Add Comment */
+.add-comment {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.add-comment input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 15px;
+  border: none;
+}
+
+.add-comment button {
+  background: #00c6ff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: white;
+  transition: 0.3s;
+}
+
+.add-comment button:hover {
+  background: #0099cc;
+}
+
+/* Emoji Picker */
+.emoji-container {
+  position: relative;
+  margin-top: 10px;
+  z-index: 10;
+}
+
+/* Delete Comment */
+.delete-comment {
+  margin-left: 10px;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+}
