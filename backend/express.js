@@ -17,7 +17,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // --------------------
 // MongoDB connection
 // --------------------
-mongoose.connect("mongodb://127.0.0.1:27017/nitdatabase")
+mongoose.connect("mongodb+srv://muskan:muskan80344@cluster0.rvu32gd.mongodb.net/nitproject?retryWrites=true&w=majority")
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
