@@ -4,6 +4,7 @@ const cors = require("cors");
 const multer = require("multer");
 const bodyParser = require("body-parser");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // --------------------
 // MongoDB connection
 // --------------------
-mongoose.connect("mongodb+srv://muskan:muskan80344@cluster0.rvu32gd.mongodb.net/nitproject?retryWrites=true&w=majority")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 

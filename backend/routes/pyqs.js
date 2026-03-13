@@ -50,8 +50,13 @@ router.get("/bulk-insert", async (req, res) => {
   }
 });
 router.get("/", async (req, res) => {
-  const data = await Pyq.find();
-  res.json(data);
+  try {
+    const data = await Pyq.find();
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
 });
 router.post("/upload", upload.single("pdf"), async (req, res) => {
   try {
