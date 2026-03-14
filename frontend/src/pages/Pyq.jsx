@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchAPI } from "../api";
 
 function App() {
 
@@ -16,11 +17,14 @@ function App() {
   const [year, setYear] = useState("");
   const [file, setFile] = useState(null);
 
+  // LOAD PAPERS
   useEffect(() => {
 
-    fetch("http://localhost:5000/api/pyqs")
-      .then(res => res.json())
-      .then(data => {
+    const loadPapers = async () => {
+
+      try {
+
+        const data = await fetchAPI("/api/pyqs");
 
         setAllPapers(data);
         setPapers(data);
@@ -28,9 +32,18 @@ function App() {
         const uniqueSubjects = [...new Set(data.map(p => p.subName))];
         setSubjects(uniqueSubjects);
 
-      });
+      } catch (err) {
+
+        console.log("Fetch error:", err);
+
+      }
+
+    };
+
+    loadPapers();
 
   }, []);
+
 
   const handleSubjectChange = (e) => {
 
@@ -38,27 +51,37 @@ function App() {
     setSelectedSubject(value);
 
     if (value === "") {
+
       setPapers(allPapers);
+
     } else {
+
       const filtered = allPapers.filter(p => p.subName === value);
       setPapers(filtered);
+
     }
 
   };
 
+
   const handleUpload = async () => {
 
     if (!subject || !examType || !year) {
+
       alert("Please fill all fields");
       return;
+
     }
 
     if (!file) {
+
       alert("Please select a PDF file");
       return;
+
     }
 
     const formData = new FormData();
+
     formData.append("subject", subject);
     formData.append("examType", examType);
     formData.append("year", year);
@@ -67,22 +90,27 @@ function App() {
     formData.append("pdf", file);
 
     try {
-      const res = await fetch("http://localhost:5000/api/pyqs/upload", {
+
+      const res = await fetchAPI("/api/pyqs/upload", {
         method: "POST",
         body: formData
       });
 
-      const data = await res.json();
-      alert(data.message || "Uploaded Successfully");
+      alert(res.message || "Uploaded Successfully");
 
       setShowModal(false);
       window.location.reload();
 
     } catch (err) {
+
       console.log(err);
       alert("Upload failed");
+
     }
+
   };
+
+
   return (
 
     <div style={{
@@ -91,9 +119,7 @@ function App() {
       background: "#f5f5f5",
       marginTop: "-40px"
     }}>
-      {/* Header Row */}
 
-      {/* Heading */}
       <h1 style={{
         textAlign: "center",
         marginTop: "40px",
@@ -102,7 +128,8 @@ function App() {
         PYQS Portal 📚
       </h1>
 
-      {/* Header Row */}
+
+      {/* HEADER ROW */}
 
       <div style={{
         maxWidth: "700px",
@@ -111,6 +138,7 @@ function App() {
         justifyContent: "space-between",
         alignItems: "center"
       }}>
+
         <select
           value={selectedSubject}
           onChange={handleSubjectChange}
@@ -124,10 +152,15 @@ function App() {
           <option value="">Select Subject</option>
 
           {subjects.map((subject, index) => (
-            <option key={index}>{subject}</option>
+
+            <option key={index}>
+              {subject}
+            </option>
+
           ))}
 
         </select>
+
 
         <button
           onClick={() => setShowModal(true)}
@@ -146,7 +179,7 @@ function App() {
       </div>
 
 
-      {/* Papers */}
+      {/* PAPERS */}
 
       <div style={{
         maxWidth: "700px",
@@ -154,6 +187,7 @@ function App() {
       }}>
 
         {papers.map(paper => (
+
           <div
             key={paper._id}
             style={{
@@ -174,7 +208,7 @@ function App() {
             </p>
 
             <a
-              href={`http://localhost:5000${paper.fileUrl}`}
+              href={`https://nitproject-backend.onrender.com${paper.fileUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -187,12 +221,13 @@ function App() {
             </a>
 
           </div>
+
         ))}
 
       </div>
 
 
-      {/* Popup Modal */}
+      {/* UPLOAD MODAL */}
 
       {showModal && (
 
@@ -234,6 +269,7 @@ function App() {
               onChange={(e) => setYear(e.target.value)}
               style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
             />
+
             <input
               placeholder="Department"
               onChange={(e) => setDept(e.target.value)}
@@ -245,12 +281,14 @@ function App() {
               onChange={(e) => setSubCode(e.target.value)}
               style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
             />
+
             <input
               type="file"
               accept="application/pdf"
               onChange={(e) => setFile(e.target.files[0])}
               style={{ marginBottom: "15px" }}
             />
+
             <button
               onClick={handleUpload}
               style={{
@@ -281,6 +319,7 @@ function App() {
       )}
 
     </div>
+
   );
 
 }

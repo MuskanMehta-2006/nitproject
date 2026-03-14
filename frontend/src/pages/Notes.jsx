@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Notes.css";
+import { fetchAPI } from "../api";
 
 function Notes() {
 
@@ -12,11 +13,14 @@ function Notes() {
   const [title, setTitle] = useState("");
   const [file, setFile] = useState(null);
 
-  // Load notes
+  // LOAD NOTES
   useEffect(() => {
-    fetch("http://localhost:5000/api/notes")
-      .then(res => res.json())
-      .then(data => {
+
+    const loadNotes = async () => {
+
+      try {
+
+        const data = await fetchAPI("/api/notes");
 
         setNotes(data);
         setAllNotes(data);
@@ -24,68 +28,109 @@ function Notes() {
         const uniqueSubjects = [...new Set(data.map(n => n.subject))];
         setSubjects(uniqueSubjects);
 
-      });
+      } catch (err) {
+
+        console.error("Fetch notes error:", err);
+
+      }
+
+    };
+
+    loadNotes();
+
   }, []);
 
-  // Filter
+
+  // FILTER
+
   const handleSubjectChange = (e) => {
 
     const value = e.target.value;
+
     setSelectedSubject(value);
 
     if (value === "") {
+
       setNotes(allNotes);
+
     } else {
+
       const filtered = allNotes.filter(n => n.subject === value);
       setNotes(filtered);
+
     }
 
   };
 
-  // Upload
+
+  // UPLOAD
+
   const handleUpload = async () => {
 
     if (!subject || !title || !file) {
+
       alert("Fill all fields");
       return;
+
     }
 
     const formData = new FormData();
+
     formData.append("subject", subject);
     formData.append("title", title);
     formData.append("pdf", file);
 
-    const res = await fetch("http://localhost:5000/api/notes/upload", {
-      method: "POST",
-      body: formData
-    });
+    try {
 
-    const data = await res.json();
+      const res = await fetchAPI("/api/notes/upload", {
+        method: "POST",
+        body: formData
+      });
 
-    alert(data.message);
-    window.location.reload();
+      alert(res.message);
+
+      window.location.reload();
+
+    } catch (err) {
+
+      console.error("Upload error:", err);
+
+    }
+
   };
+
 
   return (
 
     <div className="notes-page">
 
-      {/* Header */}
+      {/* HEADER */}
+
       <div className="notes-header">
 
-        <h1 className="notes-title">Notes Portal 📚</h1>
+        <h1 className="notes-title">
+          Notes Portal 📚
+        </h1>
 
         <select
           value={selectedSubject}
           onChange={handleSubjectChange}
           className="notes-dropdown"
         >
-          <option value="">Select Subject</option>
+
+          <option value="">
+            Select Subject
+          </option>
 
           {subjects.map((subject, index) => (
-            <option key={index} value={subject}>
+
+            <option
+              key={index}
+              value={subject}
+            >
               {subject}
             </option>
+
           ))}
 
         </select>
@@ -93,7 +138,7 @@ function Notes() {
       </div>
 
 
-      {/* Upload Box */}
+      {/* UPLOAD BOX */}
 
       <div className="upload-box">
 
@@ -106,12 +151,12 @@ function Notes() {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-       <input
-  type="text"
-  placeholder="Enter Subject (ex: DSA, AI, ML)"
-  value={subject}
-  onChange={(e) => setSubject(e.target.value)}
-/>
+        <input
+          type="text"
+          placeholder="Enter Subject (ex: DSA, AI, ML)"
+          value={subject}
+          onChange={(e) => setSubject(e.target.value)}
+        />
 
         <input
           type="file"
@@ -126,7 +171,7 @@ function Notes() {
       </div>
 
 
-      {/* Notes List */}
+      {/* NOTES LIST */}
 
       <div className="notes-container">
 
@@ -154,7 +199,7 @@ function Notes() {
               </p>
 
               <a
-                href={`http://localhost:5000${note.fileUrl}`}
+                href={`https://nitproject-backend.onrender.com${note.fileUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="notes-link"
@@ -171,7 +216,9 @@ function Notes() {
       </div>
 
     </div>
+
   );
+
 }
 
 export default Notes;
